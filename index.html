@@ -1,0 +1,463 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Candy Apple Cookie | Cookie Run Kingdom</title>
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka+One&family=Quicksand:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        /* --- CSS VARIABLES & RESET --- */
+        :root {
+            --primary-red: #E83E3E;
+            --dark-red: #A81818;
+            --caramel: #D98E2A;
+            --dark-chocolate: #2C1E1E;
+            --off-white: #FFF5F5;
+            --pink-accent: #FFC0CB;
+            --shadow: 0 4px 15px rgba(0,0,0,0.2);
+            --font-heading: 'Fredoka One', cursive;
+            --font-body: 'Quicksand', sans-serif;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: var(--font-body);
+            background-color: var(--off-white);
+            color: var(--dark-chocolate);
+            overflow-x: hidden;
+            line-height: 1.6;
+        }
+
+        /* --- ANIMATIONS --- */
+        @keyframes float {
+            0% { transform: translateY(0px) rotate(0deg); }
+            50% { transform: translateY(-15px) rotate(2deg); }
+            100% { transform: translateY(0px) rotate(0deg); }
+        }
+
+        @keyframes drip {
+            0% { height: 0px; opacity: 0; }
+            50% { opacity: 1; }
+            100% { height: 40px; opacity: 0; transform: translateY(20px); }
+        }
+
+        @keyframes popIn {
+            0% { transform: scale(0.8); opacity: 0; }
+            100% { transform: scale(1); opacity: 1; }
+        }
+
+        /* --- HEADER & HERO SECTION --- */
+        header {
+            background: linear-gradient(135deg, var(--dark-red), var(--primary-red));
+            color: white;
+            text-align: center;
+            padding: 4rem 1rem 6rem 1rem; /* Added extra bottom padding for overlapping card */
+            position: relative;
+            border-bottom-left-radius: 50% 20%;
+            border-bottom-right-radius: 50% 20%;
+            overflow: hidden;
+        }
+
+        /* Decorative "Syrup" drips */
+        .syrup-drip {
+            position: absolute;
+            top: 0;
+            width: 10px;
+            background: var(--caramel);
+            border-radius: 0 0 10px 10px;
+            animation: drip 3s infinite ease-in-out;
+        }
+
+        h1 {
+            font-family: var(--font-heading);
+            font-size: 3.5rem;
+            text-shadow: 3px 3px 0px var(--dark-chocolate);
+            margin-bottom: 0.5rem;
+            position: relative;
+            z-index: 2;
+        }
+
+        .subtitle {
+            font-size: 1.2rem;
+            background-color: var(--dark-chocolate);
+            display: inline-block;
+            padding: 0.5rem 1.5rem;
+            border-radius: 50px;
+            margin-top: 10px;
+            box-shadow: var(--shadow);
+            z-index: 2;
+            position: relative;
+        }
+
+        /* Floating Apples Background */
+        .bg-apple {
+            position: absolute;
+            opacity: 0.1;
+            font-size: 3rem;
+            z-index: 1;
+            animation: float 6s infinite ease-in-out;
+        }
+
+        /* --- MAIN CONTAINER --- */
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        /* --- CHARACTER CARD --- */
+        .char-card {
+            background: white;
+            border-radius: 25px;
+            padding: 2rem;
+            margin-top: -5rem; /* Overlap header */
+            box-shadow: var(--shadow);
+            position: relative;
+            z-index: 10;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 2rem;
+            align-items: center;
+            border: 4px solid var(--caramel);
+        }
+
+        /* Updated Image Container Styles */
+        .char-image-container {
+            flex: 1;
+            min-width: 250px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            /* Adds a soft glow behind the image */
+            background: radial-gradient(circle, var(--pink-accent) 0%, transparent 60%);
+            border-radius: 20px;
+            padding: 10px;
+        }
+
+        /* Styles for the actual image */
+        .char-image {
+            max-width: 100%;
+            height: auto;
+            max-height: 400px; /* Prevents it from getting too tall */
+            object-fit: contain;
+            border-radius: 15px;
+            border: 3px solid white;
+            box-shadow: var(--shadow);
+            transition: transform 0.3s ease;
+        }
+
+        .char-image:hover {
+            transform: scale(1.03) rotate(1deg);
+        }
+
+        .char-info {
+            flex: 1.5;
+        }
+
+        .char-info h2 {
+            font-family: var(--font-heading);
+            color: var(--primary-red);
+            font-size: 2rem;
+            margin-bottom: 1rem;
+        }
+
+        .tags {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 1.5rem;
+        }
+
+        .tag {
+            padding: 5px 15px;
+            border-radius: 15px;
+            font-weight: bold;
+            font-size: 0.9rem;
+            text-transform: uppercase;
+        }
+
+        .tag.epic { background-color: #C64964; color: white; }
+        .tag.bomber { background-color: #6D2727; color: white; }
+        .tag.middle { background-color: #E6B54A; color: var(--dark-chocolate); }
+
+        .stat-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+            margin-top: 1rem;
+        }
+
+        .stat-item {
+            background: var(--off-white);
+            padding: 10px;
+            border-radius: 10px;
+            border-left: 4px solid var(--primary-red);
+        }
+        
+        .stat-label { font-size: 0.8rem; color: #666; font-weight: bold; }
+        .stat-value { font-size: 1.1rem; font-weight: 700; color: var(--dark-chocolate); }
+
+        /* --- CONTENT SECTIONS --- */
+        section {
+            margin: 3rem 0;
+            padding: 2rem;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.05);
+            animation: popIn 0.8s ease-out;
+        }
+
+        h3 {
+            font-family: var(--font-heading);
+            color: var(--caramel);
+            font-size: 1.8rem;
+            margin-bottom: 1rem;
+            border-bottom: 3px dashed var(--primary-red);
+            display: inline-block;
+        }
+
+        /* --- SKILL SECTION --- */
+        .skill-container {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            background: linear-gradient(to right, #FFF5F5, #fff);
+            padding: 20px;
+            border-radius: 15px;
+            border: 2px solid var(--pink-accent);
+        }
+
+        .skill-icon {
+            width: 80px;
+            height: 80px;
+            background: var(--primary-red);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            color: white;
+            box-shadow: 0 4px 10px rgba(232, 62, 62, 0.4);
+            flex-shrink: 0;
+        }
+
+        .skill-details h4 {
+            color: var(--dark-red);
+            font-size: 1.4rem;
+            margin-bottom: 5px;
+        }
+
+        /* --- INTERACTIVE BUTTON --- */
+        .btn-wrapper {
+            text-align: center;
+            margin: 3rem 0;
+        }
+
+        .btn-bite {
+            background: var(--primary-red);
+            color: white;
+            border: none;
+            padding: 1rem 2rem;
+            font-size: 1.5rem;
+            font-family: var(--font-heading);
+            border-radius: 50px;
+            cursor: pointer;
+            box-shadow: 0 6px 0 var(--dark-red);
+            transition: all 0.2s;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn-bite:hover {
+            transform: translateY(2px);
+            box-shadow: 0 4px 0 var(--dark-red);
+        }
+
+        .btn-bite:active {
+            transform: translateY(6px);
+            box-shadow: 0 0 0 var(--dark-red);
+        }
+
+        #quote-display {
+            margin-top: 20px;
+            font-style: italic;
+            font-weight: 600;
+            color: var(--caramel);
+            min-height: 30px;
+            font-size: 1.2rem;
+            opacity: 0;
+            transition: opacity 0.5s;
+        }
+
+        /* --- FOOTER --- */
+        footer {
+            text-align: center;
+            padding: 2rem;
+            color: #888;
+            font-size: 0.9rem;
+            border-top: 1px solid #eee;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            h1 { font-size: 2.5rem; }
+            /* On mobile, put image on top */
+            .char-card { flex-direction: column; text-align: center; margin-top: -3rem;}
+            .char-image { max-height: 300px; }
+            .tags { justify-content: center; }
+            .skill-container { flex-direction: column; text-align: center; }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="bg-apple" style="top: 10%; left: 5%;">🍎</div>
+        <div class="bg-apple" style="top: 20%; right: 10%; animation-delay: 1s;">🍬</div>
+        <div class="bg-apple" style="top: 60%; left: 15%; animation-delay: 2s;">🍭</div>
+        <div class="bg-apple" style="top: 50%; right: 25%; animation-delay: 3s;">🍎</div>
+
+        <div class="syrup-drip" style="left: 20%; animation-duration: 4s;"></div>
+        <div class="syrup-drip" style="left: 50%; height: 15px; animation-duration: 2.5s;"></div>
+        <div class="syrup-drip" style="left: 80%; animation-duration: 5s;"></div>
+
+        <h1>Candy Apple Cookie</h1>
+        <div class="subtitle">The Sweetest Lie Ever Told</div>
+    </header>
+
+    <div class="container">
+        <section class="char-card">
+            <div class="char-image-container">
+                <img src="https://static.wikia.nocookie.net/cookierunkingdom/images/6/6a/Candy_apple_illustration.png/revision/latest/scale-to-width-down/1000?cb=20250117144025" alt="Candy Apple Cookie Illustration" class="char-image">
+            </div>
+            
+            <div class="char-info">
+                <div class="tags">
+                    <span class="tag epic">Epic</span>
+                    <span class="tag bomber">Bomber</span>
+                    <span class="tag middle">Middle</span>
+                </div>
+                <h2>“One bite will leave you wanting MORE!”</h2>
+                <p>Candy Apple Cookie believes she was born from the first lie ever told. With syrup so sticky it seals lips and a smile that hides sinister glee, she serves her master, Shadow Milk Cookie, with unwavering loyalty.</p>
+                
+                <div class="stat-grid">
+                    <div class="stat-item">
+                        <div class="stat-label">Pronouns</div>
+                        <div class="stat-value">She/Her</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-label">Release Date</div>
+                        <div class="stat-value">Jan 15, 2025</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-label">Affiliation</div>
+                        <div class="stat-value">Shadow Milk Cookie</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-label">Trait</div>
+                        <div class="stat-value">Deceitful</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section>
+            <h3>🍎 Personality & Lore</h3>
+            <p>
+                Candy Apple Cookie is a tiny, petite Cookie with a Victorian-styled dress and a cat-like smile. She masqueraded as "Apple Faerie Cookie" to lead the heroes into a trap.
+                <br><br>
+                Though indifferent to most things, she has a flair for mischief and a passion for dressing up. She delights in tricking other Cookies, but deep down, she harbors a fear of being unwanted and seeks constant validation from the Master of Deceit.
+            </p>
+        </section>
+
+        <section>
+            <h3>💥 Skill: Apple of My Eye!</h3>
+            <div class="skill-container">
+                <div class="skill-icon">🍭</div>
+                <div class="skill-details">
+                    <h4>Cooldown: 12 sec</h4>
+                    <p>
+                        Candy Apple Cookie slams down a giant lollipop. Enemies hit receive <strong>ATK Reduction</strong> and <strong>DMG Amplification</strong>. 
+                        The lollipop shatters, granting <strong>HP Shields</strong> for all allies, while candy fragments deal damage to enemies.
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <div class="btn-wrapper">
+            <button class="btn-bite" id="biteBtn">Take a Bite?</button>
+            <div id="quote-display"></div>
+        </div>
+
+    </div>
+
+    <footer>
+        <p>Fan Website made for Candy Apple Cookie | Content & Image from Cookie Run: Kingdom Wiki</p>
+        <p>Disclaimer: This is a fan-made site. Cookie Run Kingdom is property of Devsisters.</p>
+    </footer>
+
+    <script>
+        // Data for interactive elements
+        const quotes = [
+            "Kya ha ha! Caught you!",
+            "Did you really think I was innocent?",
+            "Just a little taste... of despair!",
+            "Shadow Milk Cookie will be so pleased!",
+            "Sweet, sticky, and full of lies!",
+            "Certain you wish to see more?",
+            "Master Shadow Milk Cookie!"
+        ];
+
+        const biteBtn = document.getElementById('biteBtn');
+        const quoteDisplay = document.getElementById('quote-display');
+
+        // Function to handle the button click
+        biteBtn.addEventListener('click', () => {
+            // Random quote
+            const randomIndex = Math.floor(Math.random() * quotes.length);
+            const text = quotes[randomIndex];
+
+            // Animation Reset
+            quoteDisplay.style.opacity = '0';
+            
+            setTimeout(() => {
+                quoteDisplay.innerText = `"${text}"`;
+                quoteDisplay.style.opacity = '1';
+            }, 200);
+
+            // Add a temporary 'shake' effect to the button
+            biteBtn.style.transform = 'scale(0.95) rotate(-3deg)';
+            setTimeout(() => {
+                biteBtn.style.transform = 'scale(1) rotate(0deg)';
+            }, 150);
+        });
+
+        // Scroll Animation Logic
+        const observerOptions = {
+            threshold: 0.2
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.animation = 'popIn 0.8s forwards';
+                    entry.target.style.opacity = '1';
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('section').forEach(section => {
+            // Only apply scroll animation if it's not the main character card (which is already visible)
+            if(!section.classList.contains('char-card')) {
+                 section.style.opacity = '0'; // Initial state for JS animation
+                 observer.observe(section);
+            }
+        });
+    </script>
+</body>
+</html>
