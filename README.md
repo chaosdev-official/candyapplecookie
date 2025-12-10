@@ -1,2 +1,1 @@
-# candyapplecookie
-Candy Apple's website
+The sample website for Webdev xd
